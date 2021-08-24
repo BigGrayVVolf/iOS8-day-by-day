@@ -38,13 +38,13 @@ class SobelViewController: UIViewController {
   }
   
   private func filteredImage() -> UIImage {
-    let outputImage = filter.outputImage
-    return UIImage(CIImage: outputImage)!
+    let outputImage = filter.outputImage!
+    return UIImage(ciImage: outputImage)
   }
   
   private func setupFilter() {
     // Need an input image
-    let inputImage = UIImage(named: "flowers")
+    let inputImage = UIImage(named: "flowers")!
     filter.inputImage = CIImage(image: inputImage)
   }
   

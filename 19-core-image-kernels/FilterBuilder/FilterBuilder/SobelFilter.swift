@@ -27,7 +27,7 @@ class SobelFilter: CIFilter {
     kernel = createKernel()
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     kernel = createKernel()
   }
@@ -37,10 +37,10 @@ class SobelFilter: CIFilter {
     if let inputImage = inputImage,
        let kernel = kernel {
         let args = [inputImage as AnyObject]
-        let dod = inputImage.extent().rectByInsetting(dx: -1, dy: -1)
-        return kernel.applyWithExtent(dod, roiCallback: {
+        let dod = inputImage.extent.insetBy(dx: -1, dy: -1)
+        return kernel.apply(extent: dod, roiCallback: {
           (index, rect) in
-          return rect.rectByInsetting(dx: -1, dy: -1)
+          return rect.insetBy(dx: -1, dy: -1)
           }, arguments: args)
     }
     return nil
@@ -64,7 +64,7 @@ class SobelFilter: CIFilter {
     "  }\n" +
     "  return vec4(s_x, s_y, 0.0, 1.0);\n" +
     "}"
-    return CIKernel(string: kernelString)
+    return CIKernel(source: kernelString)!
   }
   
 }

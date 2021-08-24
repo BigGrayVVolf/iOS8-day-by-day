@@ -29,7 +29,7 @@ class ChromaKeyFilter: CIFilter {
     kernel = createKernel()
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     kernel = createKernel()
   }
@@ -38,9 +38,9 @@ class ChromaKeyFilter: CIFilter {
   override var outputImage : CIImage! {
     if let inputImage = inputImage,
        let kernel = kernel {
-        let dod = inputImage.extent()
+        let dod = inputImage.extent
         let args = [inputImage as AnyObject, activeColor as AnyObject, threshold as AnyObject]
-        return kernel.applyWithExtent(dod, arguments: args)
+        return kernel.apply(extent: dod, arguments: args)
     }
     return nil
   }
@@ -54,6 +54,6 @@ class ChromaKeyFilter: CIFilter {
     "  float alpha = compare( distance - threshold, 0.0, 1.0 );\n" +
     "  return vec4( s.rgb, alpha ); \n" +
     "}"
-    return CIColorKernel(string: kernelString)
+    return CIColorKernel(source: kernelString)!
   }
 }

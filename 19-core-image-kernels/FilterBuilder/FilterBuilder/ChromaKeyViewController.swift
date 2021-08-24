@@ -34,7 +34,7 @@ class ChromaKeyViewController: UIViewController {
   }
   
   // MARK: - IBActions
-  @IBAction func handleThresholdSliderChanged(sender: UISlider) {
+  @IBAction func handleThresholdSliderChanged(_ sender: UISlider) {
     if abs(filter.threshold - CGFloat(sender.value)) > 0.05 {
       updateOutputImage()
     }
@@ -47,14 +47,14 @@ class ChromaKeyViewController: UIViewController {
   }
   
   private func filteredImage() -> UIImage {
-    let outputImage = filter.outputImage
-    return UIImage(CIImage: outputImage)!
+    let outputImage = filter.outputImage!
+    return UIImage(ciImage: outputImage)
   }
   
   private func setupFilter() {
     // Image (C) Cristian Borquez
     // https://flic.kr/p/7hhXk1
-    let inputImage = UIImage(named: "chroma_key")
+    let inputImage = UIImage(named: "chroma_key")!
     filter.inputImage = CIImage(image: inputImage)
     filter.activeColor = CIColor(red: 0, green: 1, blue: 0)
   }
